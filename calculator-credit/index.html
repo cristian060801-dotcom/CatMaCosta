@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator credit – rată lunară | CâtMăCostă.ro</title>
+<meta name="description" content="Calculează rata lunară a unui credit, costul total și dobânda estimată. Calculator credit gratuit.">
+<link rel="canonical" href="https://cristian060801-dotcom.github.io/CatMaCosta/calculator-credit/">
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<header>
+<h1>Calculator credit</h1>
+<p>Calculează rata lunară și costul total al creditului.</p>
+<a href="../">← Înapoi la CâtMăCostă.ro</a>
+</header>
+
+<main>
+
+<section class="calculator">
+
+<label>Suma creditului (lei)</label>
+<input id="suma" type="number" value="30000">
+
+<label>Dobânda anuală (%)</label>
+<input id="dobanda" type="number" value="10" step="0.01">
+
+<label>Perioada (luni)</label>
+<input id="luni" type="number" value="60">
+
+<button onclick="calculeaza()">Calculează rata</button>
+
+<div id="rezultat"></div>
+
+</section>
+
+<section>
+<h2>Cum se calculează rata unui credit?</h2>
+<p>Rata lunară depinde de suma împrumutată, dobânda anuală și perioada creditului. Calculatorul oferă o estimare folosind formula standard pentru rate egale.</p>
+
+<h2>Calculator credit gratuit</h2>
+<p>Poți modifica suma, dobânda și perioada pentru a compara diferite variante de credit.</p>
+
+<h2>Important</h2>
+<p>Rezultatul este orientativ. Un credit real poate avea comisioane, asigurări și alte costuri care modifică DAE și costul total.</p>
+</section>
+
+</main>
+
+<script>
+function calculeaza() {
+    const p = Number(document.getElementById("suma").value);
+    const r = Number(document.getElementById("dobanda").value) / 1200;
+    const n = Number(document.getElementById("luni").value);
+
+    if (!p || !n) {
+        document.getElementById("rezultat").innerHTML = "Completează toate câmpurile.";
+        return;
+    }
+
+    const rata = r
+        ? p * r / (1 - Math.pow(1 + r, -n))
+        : p / n;
+
+    const total = rata * n;
+
+    document.getElementById("rezultat").innerHTML =
+        "<h2>Rezultat</h2>" +
+        "<p><strong>Rată lunară: " + rata.toFixed(2) + " lei</strong></p>" +
+        "<p>Cost total estimat: " + total.toFixed(2) + " lei</p>" +
+        "<p>Dobândă totală estimată: " + (total - p).toFixed(2) + " lei</p>";
+}
+</script>
+
+</body>
+</html>

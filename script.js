@@ -107,7 +107,8 @@ function closeCalculator(event) {
         return;
     }
 
-    const modal = document.getElementById("calculator-modal");
+    const modal =
+        document.getElementById("calculator-modal");
 
     if (modal) {
         modal.remove();
@@ -129,6 +130,7 @@ document.addEventListener("keydown", function(event) {
 
 /* =========================================================
    1. SALARIU BRUT → NET
+   ROMÂNIA — IULIE–DECEMBRIE 2026
 ========================================================= */
 
 function openSalaryCalculator() {
@@ -215,16 +217,63 @@ function openSalaryCalculator() {
 
                 <input
                     type="checkbox"
+                    id="salary-under-26"
+                    onchange="calculateSalary()">
+
+                <span>
+                    Am până la 26 de ani
+                </span>
+
+            </label>
+
+
+            <label>
+                Copii sub 18 ani înscriși la o unitate de învățământ
+            </label>
+
+            <select
+                id="salary-school-children"
+                onchange="calculateSalary()">
+
+                <option value="0">
+                    0 copii
+                </option>
+
+                <option value="1">
+                    1 copil
+                </option>
+
+                <option value="2">
+                    2 copii
+                </option>
+
+                <option value="3">
+                    3 copii
+                </option>
+
+                <option value="4">
+                    4+ copii
+                </option>
+
+            </select>
+
+
+            <label class="checkbox-label">
+
+                <input
+                    type="checkbox"
                     id="salary-benefit"
                     checked
                     onchange="calculateSalary()">
 
                 <span>
-                    Aplică facilitatea de 200 lei neimpozabili,
-                    dacă mă încadrez
+                    Salariul de bază este 4.325 lei și
+                    îndeplinesc condițiile pentru facilitatea
+                    de 200 lei neimpozabili
                 </span>
 
             </label>
+
 
             <p class="calculator-note">
                 Estimare pentru România, perioada
@@ -254,9 +303,11 @@ function openSalaryCalculator() {
 
     `);
 
+
     setTimeout(() => {
 
-        const input = document.getElementById("salary-gross");
+        const input =
+            document.getElementById("salary-gross");
 
         if (input) {
             input.focus();
@@ -267,19 +318,150 @@ function openSalaryCalculator() {
 }
 
 
+/* =========================================================
+   DEDUCERE PERSONALĂ
+========================================================= */
+
+function calculatePersonalDeduction(
+    gross,
+    dependents
+) {
+
+    const minimumSalary = 4325;
+
+
+    if (gross <= 0) {
+        return 0;
+    }
+
+
+    /*
+       Deducerea personală de bază se acordă
+       pentru venituri brute până la salariul minim
+       + 2.000 lei.
+    */
+
+    if (gross > minimumSalary + 2000) {
+        return 0;
+    }
+
+
+    let bracket = 0;
+
+
+    if (gross > minimumSalary) {
+
+        bracket =
+            Math.floor(
+                (gross - minimumSalary) / 50
+            );
+
+        bracket =
+            Math.min(40, bracket);
+
+    }
+
+
+    /*
+       La salariul minim:
+
+       0 persoane = 20%
+       1 persoană  = 25%
+       2 persoane  = 30%
+       3 persoane  = 35%
+       4+ persoane = 45%
+
+       Pentru fiecare tranșă de 50 lei,
+       procentul de bază scade cu 0,5 puncte.
+    */
+
+    const basePercent =
+        20 - (bracket * 0.5);
+
+
+    let dependentBonus;
+
+
+    if (dependents >= 4) {
+
+        dependentBonus = 25;
+
+    } else {
+
+        dependentBonus =
+            dependents * 5;
+
+    }
+
+
+    const totalPercent =
+        basePercent + dependentBonus;
+
+
+    return (
+        minimumSalary *
+        totalPercent /
+        100
+    );
+
+}
+
+
+/* =========================================================
+   CALCUL SALARIU
+========================================================= */
+
 function calculateSalary() {
 
-    const gross =
-        Number(document.getElementById("salary-gross").value);
+    const grossInput =
+        document.getElementById("salary-gross");
 
-    const dependents =
-        Number(document.getElementById("salary-dependents").value);
+    const dependentsInput =
+        document.getElementById("salary-dependents");
 
-    const benefit =
-        document.getElementById("salary-benefit").checked;
+    const under26Input =
+        document.getElementById("salary-under-26");
+
+    const childrenInput =
+        document.getElementById("salary-school-children");
+
+    const benefitInput =
+        document.getElementById("salary-benefit");
 
     const result =
         document.getElementById("salary-result");
+
+
+    if (
+        !grossInput ||
+        !dependentsInput ||
+        !under26Input ||
+        !childrenInput ||
+        !benefitInput ||
+        !result
+    ) {
+        return;
+    }
+
+
+    const gross =
+        Number(grossInput.value);
+
+
+    const dependents =
+        Number(dependentsInput.value);
+
+
+    const under26 =
+        under26Input.checked;
+
+
+    const children =
+        Number(childrenInput.value);
+
+
+    const benefitRequested =
+        benefitInput.checked;
 
 
     if (!gross || gross <= 0) {
@@ -304,70 +486,126 @@ function calculateSalary() {
     }
 
 
+    const minimumSalary = 4325;
+
+
+    /* =====================================================
+       FACILITATEA DE 200 LEI
+    ===================================================== */
+
     let nonTaxable = 0;
 
+
     /*
-       În perioada iulie-decembrie 2026,
-       facilitatea de 200 lei se poate aplica
-       în condițiile prevăzute de legislația fiscală.
+       Pentru iulie–decembrie 2026,
+       cei 200 lei pot fi exceptați de la
+       contribuții și impozit dacă sunt
+       îndeplinite condițiile legale.
     */
+
 
     if (
-        benefit &&
-        gross >= 4325 &&
+        benefitRequested &&
+        gross >= minimumSalary &&
         gross <= 4600
     ) {
+
         nonTaxable = 200;
-    }
-
-
-    const cas = gross * 0.25;
-
-    const cass = gross * 0.10;
-
-
-    /*
-       Deducere personală estimativă.
-    */
-
-    let personalDeduction = 0;
-
-    if (gross <= 3600) {
-
-        personalDeduction = 810;
-
-    } else if (gross <= 4600) {
-
-        personalDeduction =
-            Math.max(
-                0,
-                810 - ((gross - 3600) * 0.25)
-            );
 
     }
 
 
-    const dependentDeduction =
-        dependents * 100;
+    /* =====================================================
+       BAZA PENTRU CONTRIBUȚII
+    ===================================================== */
+
+    const contributionBase =
+        Math.max(
+            0,
+            gross - nonTaxable
+        );
 
 
-    let taxable =
-        gross -
+    /* =====================================================
+       CAS
+    ===================================================== */
+
+    const cas =
+        contributionBase * 0.25;
+
+
+    /* =====================================================
+       CASS
+    ===================================================== */
+
+    const cass =
+        contributionBase * 0.10;
+
+
+    /* =====================================================
+       VENIT DUPĂ CONTRIBUȚII
+    ===================================================== */
+
+    const netBeforeTax =
+        contributionBase -
         cas -
-        cass -
-        nonTaxable -
-        personalDeduction -
-        dependentDeduction;
+        cass;
 
 
-    if (taxable < 0) {
-        taxable = 0;
-    }
+    /* =====================================================
+       DEDUCERE PERSONALĂ
+    ===================================================== */
 
+    const personalDeduction =
+        calculatePersonalDeduction(
+            gross,
+            dependents
+        );
+
+
+    /* =====================================================
+       DEDUCERE SUPLIMENTARĂ ≤ 26 ANI
+    ===================================================== */
+
+    const additionalUnder26 =
+        under26
+            ? minimumSalary * 0.15
+            : 0;
+
+
+    /* =====================================================
+       DEDUCERE COPII
+    ===================================================== */
+
+    const additionalChildren =
+        children * 100;
+
+
+    /* =====================================================
+       BAZĂ IMPOZABILĂ
+    ===================================================== */
+
+    const taxable =
+        Math.max(
+            0,
+            netBeforeTax -
+            personalDeduction -
+            additionalUnder26 -
+            additionalChildren
+        );
+
+
+    /* =====================================================
+       IMPOZIT PE VENIT
+    ===================================================== */
 
     const incomeTax =
         taxable * 0.10;
 
+
+    /* =====================================================
+       SALARIU NET
+    ===================================================== */
 
     const net =
         gross -
@@ -375,6 +613,10 @@ function calculateSalary() {
         cass -
         incomeTax;
 
+
+    /* =====================================================
+       AFIȘARE
+    ===================================================== */
 
     result.innerHTML = `
 
@@ -394,25 +636,93 @@ function calculateSalary() {
         <div class="result-details">
 
             <div>
-                <span>CAS 25%</span>
+
+                <span>
+                    CAS 25%
+                </span>
+
                 <strong>
                     ${formatMoney(cas)} lei
                 </strong>
+
             </div>
 
+
             <div>
-                <span>CASS 10%</span>
+
+                <span>
+                    CASS 10%
+                </span>
+
                 <strong>
                     ${formatMoney(cass)} lei
                 </strong>
+
             </div>
 
+
             <div>
-                <span>Impozit pe venit</span>
+
+                <span>
+                    Impozit pe venit 10%
+                </span>
+
                 <strong>
                     ${formatMoney(incomeTax)} lei
                 </strong>
+
             </div>
+
+
+            <div>
+
+                <span>
+                    Deducere personală
+                </span>
+
+                <strong>
+                    ${formatMoney(personalDeduction)} lei
+                </strong>
+
+            </div>
+
+
+            ${
+                additionalUnder26 > 0
+                    ? `
+                        <div>
+
+                            <span>
+                                Deducere suplimentară ≤26 ani
+                            </span>
+
+                            <strong>
+                                ${formatMoney(additionalUnder26)} lei
+                            </strong>
+
+                        </div>
+                      `
+                    : ""
+            }
+
+
+            ${
+                additionalChildren > 0
+                    ? `
+                        <div>
+
+                            <span>
+                                Deducere copii
+                            </span>
+
+                            <strong>
+                                ${formatMoney(additionalChildren)} lei
+                            </strong>
+
+                        </div>
+                      `
+                    : ""
+            }
 
         </div>
 
@@ -421,7 +731,11 @@ function calculateSalary() {
             nonTaxable > 0
                 ? `
                     <div class="benefit-message">
-                        ✓ Au fost aplicați 200 lei neimpozabili.
+
+                        ✓ Au fost aplicați 200 lei
+                        neimpozabili și necuprinși în
+                        baza contribuțiilor.
+
                     </div>
                   `
                 : ""
@@ -549,13 +863,19 @@ function openLoanCalculator() {
 function calculateLoan() {
 
     const amount =
-        Number(document.getElementById("loan-amount").value);
+        Number(
+            document.getElementById("loan-amount").value
+        );
 
     const years =
-        Number(document.getElementById("loan-years").value);
+        Number(
+            document.getElementById("loan-years").value
+        );
 
     const annualInterest =
-        Number(document.getElementById("loan-interest").value);
+        Number(
+            document.getElementById("loan-interest").value
+        );
 
 
     const result =
@@ -588,7 +908,9 @@ function calculateLoan() {
     }
 
 
-    const months = years * 12;
+    const months =
+        years * 12;
+
 
     const monthlyRate =
         annualInterest / 100 / 12;
@@ -626,6 +948,7 @@ function calculateLoan() {
     const total =
         monthlyPayment * months;
 
+
     const interest =
         total - amount;
 
@@ -648,6 +971,7 @@ function calculateLoan() {
         <div class="result-details">
 
             <div>
+
                 <span>
                     Suma împrumutată
                 </span>
@@ -655,10 +979,12 @@ function calculateLoan() {
                 <strong>
                     ${formatMoney(amount)} lei
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Dobândă totală
                 </span>
@@ -666,10 +992,12 @@ function calculateLoan() {
                 <strong>
                     ${formatMoney(interest)} lei
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Total de plată
                 </span>
@@ -677,13 +1005,17 @@ function calculateLoan() {
                 <strong>
                     ${formatMoney(total)} lei
                 </strong>
+
             </div>
 
         </div>
 
+
         <div class="benefit-message">
-            ℹ️ Calculul nu include comisioane, asigurări
-            sau alte costuri ale băncii.
+
+            ℹ️ Calculul nu include comisioane,
+            asigurări sau alte costuri ale băncii.
+
         </div>
 
     `;
@@ -809,13 +1141,19 @@ function openFuelCalculator() {
 function calculateFuel() {
 
     const distance =
-        Number(document.getElementById("fuel-distance").value);
+        Number(
+            document.getElementById("fuel-distance").value
+        );
 
     const consumption =
-        Number(document.getElementById("fuel-consumption").value);
+        Number(
+            document.getElementById("fuel-consumption").value
+        );
 
     const price =
-        Number(document.getElementById("fuel-price").value);
+        Number(
+            document.getElementById("fuel-price").value
+        );
 
 
     const result =
@@ -849,15 +1187,19 @@ function calculateFuel() {
 
 
     const liters =
-        distance * consumption / 100;
+        distance *
+        consumption /
+        100;
 
 
     const totalCost =
-        liters * price;
+        liters *
+        price;
 
 
     const costPerKm =
-        totalCost / distance;
+        totalCost /
+        distance;
 
 
     result.innerHTML = `
@@ -878,6 +1220,7 @@ function calculateFuel() {
         <div class="result-details">
 
             <div>
+
                 <span>
                     Combustibil consumat
                 </span>
@@ -885,10 +1228,12 @@ function calculateFuel() {
                 <strong>
                     ${formatMoney(liters)} L
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Cost pe kilometru
                 </span>
@@ -896,6 +1241,7 @@ function calculateFuel() {
                 <strong>
                     ${formatMoney(costPerKm)} lei/km
                 </strong>
+
             </div>
 
         </div>
@@ -1039,16 +1385,24 @@ function openCarCalculator() {
 function calculateCar() {
 
     const price =
-        Number(document.getElementById("car-price").value);
+        Number(
+            document.getElementById("car-price").value
+        ) || 0;
 
     const transport =
-        Number(document.getElementById("car-transport").value);
+        Number(
+            document.getElementById("car-transport").value
+        ) || 0;
 
     const documents =
-        Number(document.getElementById("car-documents").value);
+        Number(
+            document.getElementById("car-documents").value
+        ) || 0;
 
     const other =
-        Number(document.getElementById("car-other").value);
+        Number(
+            document.getElementById("car-other").value
+        ) || 0;
 
 
     const total =
@@ -1080,6 +1434,7 @@ function calculateCar() {
         <div class="result-details">
 
             <div>
+
                 <span>
                     Mașină
                 </span>
@@ -1087,10 +1442,12 @@ function calculateCar() {
                 <strong>
                     ${formatMoney(price)} €
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Transport
                 </span>
@@ -1098,10 +1455,12 @@ function calculateCar() {
                 <strong>
                     ${formatMoney(transport)} €
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Acte / numere
                 </span>
@@ -1109,10 +1468,12 @@ function calculateCar() {
                 <strong>
                     ${formatMoney(documents)} €
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Alte costuri
                 </span>
@@ -1120,15 +1481,17 @@ function calculateCar() {
                 <strong>
                     ${formatMoney(other)} €
                 </strong>
+
             </div>
 
         </div>
 
 
         <div class="benefit-message">
-            ℹ️ Estimarea nu include taxe specifice unei țări
-            sau situații speciale. Acestea vor fi adăugate
-            într-o versiune viitoare.
+
+            ℹ️ Estimarea nu include taxe specifice
+            unei țări sau situații speciale.
+
         </div>
 
     `;
@@ -1216,7 +1579,9 @@ function openTaxCalculator() {
 function calculateTax() {
 
     const income =
-        Number(document.getElementById("tax-income").value);
+        Number(
+            document.getElementById("tax-income").value
+        );
 
 
     const result =
@@ -1256,7 +1621,9 @@ function calculateTax() {
     const taxBase =
         Math.max(
             0,
-            income - cas - cass
+            income -
+            cas -
+            cass
         );
 
 
@@ -1289,6 +1656,7 @@ function calculateTax() {
         <div class="result-details">
 
             <div>
+
                 <span>
                     CAS 25%
                 </span>
@@ -1296,10 +1664,12 @@ function calculateTax() {
                 <strong>
                     ${formatMoney(cas)} lei
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     CASS 10%
                 </span>
@@ -1307,10 +1677,12 @@ function calculateTax() {
                 <strong>
                     ${formatMoney(cass)} lei
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Impozit 10%
                 </span>
@@ -1318,6 +1690,7 @@ function calculateTax() {
                 <strong>
                     ${formatMoney(incomeTax)} lei
                 </strong>
+
             </div>
 
         </div>
@@ -1425,10 +1798,14 @@ function openHourlyCalculator() {
 function calculateHourly() {
 
     const salary =
-        Number(document.getElementById("hourly-salary").value);
+        Number(
+            document.getElementById("hourly-salary").value
+        );
 
     const weeklyHours =
-        Number(document.getElementById("hourly-hours").value);
+        Number(
+            document.getElementById("hourly-hours").value
+        );
 
 
     const result =
@@ -1461,15 +1838,19 @@ function calculateHourly() {
 
 
     const monthlyHours =
-        weeklyHours * 52 / 12;
+        weeklyHours *
+        52 /
+        12;
 
 
     const hourly =
-        salary / monthlyHours;
+        salary /
+        monthlyHours;
 
 
     const daily =
-        hourly * 8;
+        hourly *
+        8;
 
 
     result.innerHTML = `
@@ -1490,6 +1871,7 @@ function calculateHourly() {
         <div class="result-details">
 
             <div>
+
                 <span>
                     Câștig pe zi (8 ore)
                 </span>
@@ -1497,10 +1879,12 @@ function calculateHourly() {
                 <strong>
                     ${formatMoney(daily)} lei
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Ore lunare estimate
                 </span>
@@ -1508,6 +1892,7 @@ function calculateHourly() {
                 <strong>
                     ${formatMoney(monthlyHours)} ore
                 </strong>
+
             </div>
 
         </div>
@@ -1687,22 +2072,34 @@ function openExpensesCalculator() {
 function calculateExpenses() {
 
     const home =
-        Number(document.getElementById("expense-home").value) || 0;
+        Number(
+            document.getElementById("expense-home").value
+        ) || 0;
 
     const food =
-        Number(document.getElementById("expense-food").value) || 0;
+        Number(
+            document.getElementById("expense-food").value
+        ) || 0;
 
     const transport =
-        Number(document.getElementById("expense-transport").value) || 0;
+        Number(
+            document.getElementById("expense-transport").value
+        ) || 0;
 
     const bills =
-        Number(document.getElementById("expense-bills").value) || 0;
+        Number(
+            document.getElementById("expense-bills").value
+        ) || 0;
 
     const loans =
-        Number(document.getElementById("expense-loans").value) || 0;
+        Number(
+            document.getElementById("expense-loans").value
+        ) || 0;
 
     const other =
-        Number(document.getElementById("expense-other").value) || 0;
+        Number(
+            document.getElementById("expense-other").value
+        ) || 0;
 
 
     const total =
@@ -1736,6 +2133,7 @@ function calculateExpenses() {
         <div class="result-details">
 
             <div>
+
                 <span>
                     Locuință
                 </span>
@@ -1743,10 +2141,12 @@ function calculateExpenses() {
                 <strong>
                     ${formatMoney(home)} lei
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Mâncare
                 </span>
@@ -1754,10 +2154,12 @@ function calculateExpenses() {
                 <strong>
                     ${formatMoney(food)} lei
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Transport
                 </span>
@@ -1765,10 +2167,12 @@ function calculateExpenses() {
                 <strong>
                     ${formatMoney(transport)} lei
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Facturi
                 </span>
@@ -1776,10 +2180,12 @@ function calculateExpenses() {
                 <strong>
                     ${formatMoney(bills)} lei
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Rate / credite
                 </span>
@@ -1787,10 +2193,12 @@ function calculateExpenses() {
                 <strong>
                     ${formatMoney(loans)} lei
                 </strong>
+
             </div>
 
 
             <div>
+
                 <span>
                     Alte cheltuieli
                 </span>
@@ -1798,6 +2206,7 @@ function calculateExpenses() {
                 <strong>
                     ${formatMoney(other)} lei
                 </strong>
+
             </div>
 
         </div>

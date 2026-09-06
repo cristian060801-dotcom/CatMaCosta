@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calculator salariu net 2026 – CâtMăCostă.ro</title>
+
+    <meta name="description" content="Calculează salariul net din România în 2026. Află cât primești în mână din salariul brut, CAS, CASS și impozit. Calculator gratuit.">
+
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://cristian060801-dotcom.github.io/CatMaCosta/calculator-salariu-net/">
+
+    <meta property="og:title" content="Calculator salariu net 2026">
+    <meta property="og:description" content="Află rapid cât primești în mână din salariul brut.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cristian060801-dotcom.github.io/CatMaCosta/calculator-salariu-net/">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #111827, #2563eb);
+            color: white;
+            padding: 25px 18px;
+        }
+
+        nav {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .back {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 35px auto;
+            padding: 0 18px;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+            line-height: 1.15;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #4b5563;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin: 16px 0 7px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: normal;
+        }
+
+        .checkbox input {
+            width: auto;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 15px;
+            border: 0;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #eff6ff;
+            border-radius: 12px;
+            font-size: 18px;
+        }
+
+        .warning {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        footer {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 25px 18px;
+            border-top: 1px solid #ddd;
+            color: #667085;
+        }
+
+        footer a {
+            color: #2563eb;
+            margin-right: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <a class="logo" href="../">CâtMăCostă.ro</a>
+        <a class="back" href="../">← Toate calculatoarele</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h1>Calculator salariu net 2026</h1>
+
+        <p>
+            Calculează rapid cât primești în mână din salariul brut.
+            Vezi CAS, CASS și impozitul pe venit și estimează salariul net.
+        </p>
+    </section>
+
+    <section class="card">
+
+        <h2>Calculează salariul net</h2>
+
+        <label>
+            Salariu brut (lei)
+            <input type="number" id="gross" value="4325" min="0">
+        </label>
+
+        <label>
+            Persoane în întreținere
+            <input type="number" id="dependents" value="0" min="0">
+        </label>
+
+        <label class="checkbox">
+            <input type="checkbox" id="under26">
+            Am până la 26 de ani
+        </label>
+
+        <label>
+            Copii sub 18 ani înscriși la școală
+            <input type="number" id="children" value="0" min="0">
+        </label>
+
+        <label class="checkbox">
+            <input type="checkbox" id="nonTaxable">
+            Se aplică facilitatea de 200 lei neimpozabili
+        </label>
+
+        <button onclick="calculateSalary()">
+            Calculează salariul net
+        </button>
+
+        <div id="result" class="result">
+            Introdu datele și apasă „Calculează salariul net”.
+        </div>
+
+        <p class="warning">
+            Rezultatul este orientativ și poate diferi în funcție de situația
+            fiscală și de condițiile contractului de muncă.
+        </p>
+
+    </section>
+
+    <section class="card">
+
+        <h2>Cum se calculează salariul net?</h2>
+
+        <p>
+            Salariul net reprezintă suma pe care angajatul o primește efectiv,
+            după scăderea contribuțiilor și a impozitului aplicabil.
+        </p>
+
+        <p>
+            În calcul sunt luate în considerare salariul brut, contribuția la
+            pensie (CAS), contribuția la sănătate (CASS), impozitul pe venit
+            și deducerile personale relevante.
+        </p>
+
+        <h2>Ce înseamnă brut și net?</h2>
+
+        <p>
+            Salariul brut este suma înscrisă în contract înainte de aplicarea
+            taxelor și contribuțiilor. Salariul net este suma care rămâne
+            efectiv după aceste rețineri.
+        </p>
+
+    </section>
+
+    <section class="card">
+
+        <h2>Întrebări frecvente</h2>
+
+        <h3>Calculatorul este gratuit?</h3>
+        <p>
+            Da. Calculatorul de salariu net de pe CâtMăCostă.ro poate fi
+            utilizat gratuit.
+        </p>
+
+        <h3>Pot calcula salariul minim?</h3>
+        <p>
+            Da. Introdu salariul brut și calculatorul va estima suma netă.
+        </p>
+
+        <h3>Pot include deducerea pentru persoanele până la 26 de ani?</h3>
+        <p>
+            Da. Bifează opțiunea corespunzătoare pentru a include deducerea
+            suplimentară în estimare.
+        </p>
+
+        <h3>Rezultatul este oficial?</h3>
+        <p>
+            Nu. Rezultatul este o estimare și nu înlocuiește calculul efectuat
+            de angajator sau de un specialist fiscal.
+        </p>
+
+    </section>
+
+</main>
+
+<footer>
+
+    <a href="../">Acasă</a>
+    <a href="../confidentialitate/">Confidențialitate</a>
+    <a href="../cookies/">Cookies</a>
+    <a href="../termeni/">Termeni și disclaimer</a>
+
+    <p>
+        © 2026 CâtMăCostă.ro
+    </p>
+
+</footer>
+
+<script>
+
+function calculateSalary() {
+
+    const gross = Number(document.getElementById("gross").value) || 0;
+    const dependents =
+        Number(document.getElementById("dependents").value) || 0;
+
+    const children =
+        Number(document.getElementById("children").value) || 0;
+
+    const under26 =
+        document.getElementById("under26").checked;
+
+    const requestedNonTaxable =
+        document.getElementById("nonTaxable").checked;
+
+    if (gross <= 0) {
+
+        document.getElementById("result").innerHTML =
+            "Introdu un salariu brut mai mare decât 0 lei.";
+
+        return;
+    }
+
+    const minimumSalary = 4325;
+
+    let nonTaxable = 0;
+
+    if (
+        requestedNonTaxable &&
+        gross >= 4325 &&
+        gross <= 4600
+    ) {
+        nonTaxable = 200;
+    }
+
+    const contributionBase =
+        Math.max(0, gross - nonTaxable);
+
+    const cas =
+        contributionBase * 0.25;
+
+    const cass =
+        contributionBase * 0.10;
+
+    const bracket =
+        Math.min(
+            40,
+            Math.max(
+                0,
+                Math.floor((gross - minimumSalary) / 50)
+            )
+        );
+
+    let basePercent =
+        20 - (bracket * 0.5);
+
+    let dependentBonus = 0;
+
+    if (dependents >= 4) {
+        dependentBonus = 25;
+    } else {
+        dependentBonus = dependents * 5;
+    }
+
+    const personalDeduction =
+        minimumSalary *
+        (basePercent + dependentBonus) /
+        100;
+
+    const additionalUnder26 =
+        under26
+            ? minimumSalary * 0.15
+            : 0;
+
+    const additionalChildren =
+        children * 100;
+
+    const netBeforeTax =
+        contributionBase - cas - cass;
+
+    const taxableIncome =
+        Math.max(
+            0,
+            netBeforeTax -
+            personalDeduction -
+            additionalUnder26 -
+            additionalChildren
+        );
+
+    const incomeTax =
+        taxableIncome * 0.10;
+
+    const netSalary =
+        gross - cas - cass - incomeTax;
+
+    document.getElementById("result").innerHTML =
+
+        "<strong>Salariu net estimat: " +
+        netSalary.toFixed(2) +
+        " lei</strong><br><br>" +
+
+        "CAS: " +
+        cas.toFixed(2) +
+        " lei<br>" +
+
+        "CASS: " +
+        cass.toFixed(2) +
+        " lei<br>" +
+
+        "Impozit pe venit: " +
+        incomeTax.toFixed(2) +
+        " lei<br>" +
+
+        "Deducere personală: " +
+        personalDeduction.toFixed(2) +
+        " lei";
+
+    if (nonTaxable > 0) {
+
+        document.getElementById("result").innerHTML +=
+            "<br>Sumă neimpozabilă: " +
+            nonTaxable.toFixed(2) +
+            " lei";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

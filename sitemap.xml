@@ -1,8 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
         <loc>https://cristian060801-dotcom.github.io/CatMaCosta/</loc>
+    </url>
+
+    <url>
+        <loc>https://cristian060801-dotcom.github.io/CatMaCosta/calculator-salariu-net/</loc>
+    </url>
+
+    <url>
+        <loc>https://cristian060801-dotcom.github.io/CatMaCosta/calculator-credit/</loc>
+    </url>
+
+    <url>
+        <loc>https://cristian060801-dotcom.github.io/CatMaCosta/calculator-combustibil/</loc>
+    </url>
+
+    <url>
+        <loc>https://cristian060801-dotcom.github.io/CatMaCosta/calculator-masina/</loc>
+    </url>
+
+    <url>
+        <loc>https://cristian060801-dotcom.github.io/CatMaCosta/calculator-taxe/</loc>
+    </url>
+
+    <url>
+        <loc>https://cristian060801-dotcom.github.io/CatMaCosta/salariu-pe-ora/</loc>
+    </url>
+
+    <url>
+        <loc>https://cristian060801-dotcom.github.io/CatMaCosta/cheltuieli-lunare/</loc>
+    </url>
+
+    <url>
+        <loc>https://cristian060801-dotcom.github.io/CatMaCosta/confidentialitate/</loc>
+    </url>
+
+    <url>
+        <loc>https://cristian060801-dotcom.github.io/CatMaCosta/cookies/</loc>
+    </url>
+
+    <url>
+        <loc>https://cristian060801-dotcom.github.io/CatMaCosta/termeni/</loc>
     </url>
 
 </urlset>

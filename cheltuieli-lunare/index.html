@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator cheltuieli lunare | CâtMăCostă.ro</title>
+<meta name="description" content="Calculează cheltuielile lunare pentru locuință, mâncare, facturi, transport și alte costuri.">
+<link rel="canonical" href="https://cristian060801-dotcom.github.io/CatMaCosta/cheltuieli-lunare/">
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<header>
+<h1>Calculator cheltuieli lunare</h1>
+<p>Calculează cât cheltuiești într-o lună.</p>
+<a href="../">← Înapoi la CâtMăCostă.ro</a>
+</header>
+
+<main>
+
+<section class="calculator">
+
+<label>Chirie / rată (lei)</label>
+<input id="locuinta" type="number" value="1500">
+
+<label>Mâncare (lei)</label>
+<input id="mancare" type="number" value="1000">
+
+<label>Facturi (lei)</label>
+<input id="facturi" type="number" value="500">
+
+<label>Transport (lei)</label>
+<input id="transport" type="number" value="400">
+
+<label>Alte cheltuieli (lei)</label>
+<input id="alte" type="number" value="300">
+
+<button onclick="calculeaza()">Calculează</button>
+
+<div id="rezultat"></div>
+
+</section>
+
+<section>
+<h2>De ce este util un calculator de cheltuieli?</h2>
+<p>Un buget lunar te ajută să vezi unde se duc banii și cât trebuie să câștigi pentru a acoperi cheltuielile curente.</p>
+</section>
+
+</main>
+
+<script>
+function calculeaza() {
+
+    const total =
+        Number(document.getElementById("locuinta").value) +
+        Number(document.getElementById("mancare").value) +
+        Number(document.getElementById("facturi").value) +
+        Number(document.getElementById("transport").value) +
+        Number(document.getElementById("alte").value);
+
+    document.getElementById("rezultat").innerHTML =
+        "<h2>Rezultat</h2>" +
+        "<p><strong>Cheltuieli lunare: " +
+        total.toFixed(2) +
+        " lei</strong></p>" +
+        "<p>Estimare anuală: " +
+        (total * 12).toFixed(2) +
+        " lei</p>";
+}
+</script>
+
+</body>
+</html>

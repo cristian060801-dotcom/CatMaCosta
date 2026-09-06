@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="CâtMăCostă.ro - Calculatoare financiare gratuite pentru salariu, credit, combustibil, mașini, taxe și cheltuieli.">
+
+    <meta name="keywords"
+        content="calculator salariu net, calculator credit, calculator combustibil, cost import masina, calculator taxe, salariu pe ora, cheltuieli lunare">
+
+    <title>CâtMăCostă.ro - Calculatoare financiare gratuite</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="site-header">
+
+        <div class="container header-content">
+
+            <a href="#" class="logo">
+                CâtMăCostă<span>.ro</span>
+            </a>
+
+            <nav class="navigation">
+
+                <a href="#calculatoare">
+                    Calculatoare
+                </a>
+
+                <a href="#despre">
+                    Despre
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- HERO -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="container hero-content">
+
+                <div class="hero-text">
+
+                    <div class="badge">
+                        💰 Gratuit și simplu
+                    </div>
+
+                    <h1>
+                        Calculează rapid
+                        <span>cât te costă cu adevărat.</span>
+                    </h1>
+
+                    <p>
+                        Calculatoare financiare simple,
+                        rapide și ușor de înțeles pentru România.
+                    </p>
+
+                    <a href="#calculatoare" class="hero-button">
+                        Vezi calculatoarele ↓
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CALCULATOARE -->
+
+        <section id="calculatoare" class="calculators-section">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <p class="section-label">
+                        INSTRUMENTE GRATUITE
+                    </p>
+
+                    <h2>
+                        Ce vrei să calculezi?
+                    </h2>
+
+                    <p>
+                        Alege calculatorul de care ai nevoie.
+                    </p>
+
+                </div>
+
+
+                <div class="calculator-grid">
+
+
+                    <!-- SALARIU -->
+
+                    <article class="calculator-card featured">
+
+                        <div class="card-icon">
+                            💰
+                        </div>
+
+                        <div class="card-content">
+
+                            <span class="card-label">
+                                POPULAR
+                            </span>
+
+                            <h3>
+                                Salariu brut → net
+                            </h3>
+
+                            <p>
+                                Află cât primești efectiv în mână
+                                din salariul tău brut.
+                            </p>
+
+                            <button
+                                class="calculator-button"
+                                onclick="openCalculator('salary')">
+
+                                Calculează →
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- CREDIT -->
+
+                    <article class="calculator-card">
+
+                        <div class="card-icon">
+                            💳
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                Calculator credit
+                            </h3>
+
+                            <p>
+                                Calculează rata lunară, dobânda
+                                și costul total al creditului.
+                            </p>
+
+                            <button
+                                class="calculator-button"
+                                onclick="openCalculator('loan')">
+
+                                Calculează →
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- COMBUSTIBIL -->
+
+                    <article class="calculator-card">
+
+                        <div class="card-icon">
+                            🚗
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                Cost combustibil
+                            </h3>
+
+                            <p>
+                                Află cât te costă o călătorie
+                                și cât plătești pe kilometru.
+                            </p>
+
+                            <button
+                                class="calculator-button"
+                                onclick="openCalculator('fuel')">
+
+                                Calculează →
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- IMPORT AUTO -->
+
+                    <article class="calculator-card">
+
+                        <div class="card-icon">
+                            🚘
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                Cost import mașină
+                            </h3>
+
+                            <p>
+                                Estimează costul total pentru
+                                aducerea unei mașini în România.
+                            </p>
+
+                            <button
+                                class="calculator-button"
+                                onclick="openCalculator('car')">
+
+                                Calculează →
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- TAXE -->
+
+                    <article class="calculator-card">
+
+                        <div class="card-icon">
+                            🧾
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                Calculator taxe
+                            </h3>
+
+                            <p>
+                                Calculează taxe și contribuții
+                                pentru situația ta.
+                            </p>
+
+                            <button
+                                class="calculator-button"
+                                onclick="openCalculator('tax')">
+
+                                Calculează →
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- SALARIU ORAR -->
+
+                    <article class="calculator-card">
+
+                        <div class="card-icon">
+                            ⏱️
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                Salariu pe oră
+                            </h3>
+
+                            <p>
+                                Află cât valorează o oră
+                                din timpul tău.
+                            </p>
+
+                            <button
+                                class="calculator-button"
+                                onclick="openCalculator('hourly')">
+
+                                Calculează →
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- CHELTUIELI -->
+
+                    <article class="calculator-card">
+
+                        <div class="card-icon">
+                            🏠
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                Cheltuieli lunare
+                            </h3>
+
+                            <p>
+                                Adună și organizează toate
+                                cheltuielile tale lunare.
+                            </p>
+
+                            <button
+                                class="calculator-button"
+                                onclick="openCalculator('expenses')">
+
+                                Calculează →
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DE CE NOI -->
+
+        <section class="why-section">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <p class="section-label">
+                        CÂTMĂCOSTĂ.RO
+                    </p>
+
+                    <h2>
+                        Simplu. Rapid. Gratuit.
+                    </h2>
+
+                </div>
+
+
+                <div class="features-grid">
+
+                    <div class="feature-box">
+
+                        <div class="feature-icon">
+                            ⚡
+                        </div>
+
+                        <h3>
+                            Rapid
+                        </h3>
+
+                        <p>
+                            Introduci câteva date și vezi
+                            imediat rezultatul.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature-box">
+
+                        <div class="feature-icon">
+                            🧮
+                        </div>
+
+                        <h3>
+                            Ușor de înțeles
+                        </h3>
+
+                        <p>
+                            Rezultatele sunt prezentate clar,
+                            fără formule complicate.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature-box">
+
+                        <div class="feature-icon">
+                            🆓
+                        </div>
+
+                        <h3>
+                            Gratuit
+                        </h3>
+
+                        <p>
+                            Calculatoarele sunt disponibile
+                            gratuit pentru toată lumea.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DESPRE -->
+
+        <section id="despre" class="about-section">
+
+            <div class="container">
+
+                <div class="about-box">
+
+                    <p class="section-label">
+                        DESPRE CÂTMĂCOSTĂ
+                    </p>
+
+                    <h2>
+                        Banii devin mai ușor de înțeles.
+                    </h2>
+
+                    <p>
+                        CâtMăCostă.ro este un proiect creat pentru
+                        a te ajuta să înțelegi mai bine costurile
+                        din viața de zi cu zi și să iei decizii
+                        financiare mai informate.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="site-footer">
+
+        <div class="container footer-content">
+
+            <div>
+
+                <strong>
+                    CâtMăCostă.ro
+                </strong>
+
+                <p>
+                    Calculatoare simple. Decizii mai bune.
+                </p>
+
+            </div>
+
+            <div>
+
+                <p>
+                    © 2026 CâtMăCostă.ro
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
